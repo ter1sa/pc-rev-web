@@ -21,10 +21,18 @@ const UploadFilePage: React.FC = () => {
             // console.log(data);
             const validData = data.validData;
             const response = await axios.get(`http://localhost:5001/api/sancus`);
+            const errorMessages: string[] = [];
 
             for (const userData of validData) {
                 const { NAME, EMAIL, INSTITUTE, COUNTRY } = userData;
                 const dblpData = response.data.filter((item: any) => item.email === EMAIL);
+
+                // If no DBLP data found for the candidate, skip to the next candidate
+                if (dblpData.length === 0) {
+                    errorMessages.push(`No DBLP data found for ${EMAIL} (${NAME})`);
+                    continue;
+                }
+
                 const dblpUrl = dblpData[0].dblp;
                 // const { NAME, EMAIL, INSTITUTE, COUNTRY, COUNTRYOFORIGIN, GENDER, LEVEL, EXPERTISE, DBLP } = userData;
                 // const dblpUrl = DBLP;
@@ -100,7 +108,13 @@ const UploadFilePage: React.FC = () => {
                 //     console.log(`No DBLP data found for ${EMAIL}`);
                 // }
             }
-            alert('Data submitted successfully!');
+
+            // Alert with error messages if any
+            if (errorMessages.length > 0) {
+                alert(`The following errors occurred:\n${errorMessages.join('\n')}`);
+            } else {
+                alert('Data submitted successfully!');
+            }
         } catch (error) {
             console.error('Error submitting data:', error);
             alert('Error submitting data');
