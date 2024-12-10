@@ -30,6 +30,8 @@ This web application assists academic conference organizers in forming a diverse
 1. npm install
 2. npm start
 
+Note: Need to clone/ download pc-rev-app and set up the SQL database (refer to pc-rev-app repo) for this to work
+
 ## Work Flow with Visualizations
 1. Click on the UPLOAD FILE button
 ![Upload File Button](workflow/button.png "Upload File Button")
